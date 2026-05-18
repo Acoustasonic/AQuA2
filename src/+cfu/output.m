@@ -1,7 +1,7 @@
 function output(~,~,fCFU,f)
     opts = getappdata(f,'opts');
     fh = guidata(fCFU);
-    datPro = rescale(fh.averPro1);
+    datPro = util.normalize01(fh.averPro1);
     selpath = uigetdir(opts.filePath1,'Choose output folder');
     path0 = [selpath,filesep,opts.fileName1];
     cfuOpts = cfu.getCfuOpts(fCFU);

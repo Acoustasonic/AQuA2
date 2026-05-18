@@ -40,7 +40,7 @@ for xxx = 1:numel(files)
     %% load result
     load(fullfile(filepath, f1));
     
-    datPro = rescale(mean(single(res.datOrg1), 4));
+    datPro = util.normalize01(mean(single(res.datOrg1), 4));
 
     %% cfuDetect
     [cfuInfo1, cfuInfo2] = cfu.CFUdetectScript(res,cfuOpts);

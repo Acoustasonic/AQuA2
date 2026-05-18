@@ -84,7 +84,7 @@ for i = 1:nCFU2
 end
 
 %%
-datPro = rescale(session1.datMedian);
+datPro = util.normalize01(session1.datMedian);
 ov = cat(3, datPro, datPro, datPro);
 for i = 1:nCFU1
     x = randi(255,[1,3]);
@@ -98,7 +98,7 @@ end
 figure;
 imshow(ov)
 
-datPro = rescale(session2.datMedian);
+datPro = util.normalize01(session2.datMedian);
 ov = cat(3, datPro, datPro, datPro);
 for i = 1:nCFU2
     x = randi(255,[1,3]);
@@ -115,7 +115,7 @@ imshow(ov)
 
 
 %%
-datPro = rescale(session1.datMedian);
+datPro = util.normalize01(session1.datMedian);
 ov = cat(3, datPro, datPro, datPro);
 for i = 1:numel(common)
     ov(:, :, 1) = ov(:, :, 1) + 0.6 * 1 * common{i};

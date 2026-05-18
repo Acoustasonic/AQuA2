@@ -4,7 +4,7 @@ AQuA2 (Activity Quantification and Analysis) is a tool for quantifying spatiotem
 
 If you have any feedback or issue, you are welcome to either post issue in Issues section or send email to yug@tsinghua.edu.cn (Guoqiang Yu at Tsinghua University).
 
-- [More about AQuA](#more-about-aqua)
+- [More about AQuA2](#more-about-aqua)
   - [Potential Input Data](#potential-input-data)
   - [Detection Pipeline](#detection-pipeline)
   - [Functional unit analysis](#functional-unit-analysis)
@@ -123,6 +123,10 @@ You can try these real data sets in AQuA2.
 Xuelong Mi, Alex Bo-Yuan Chen, Daniela Duarte, Erin Carey, Charlotte R. Taylor, Philipp N. Braaker, Mark Bright, Rafael G. Almeida, Jing-Xuan Lim, Virginia M. Rutten, Wei Zheng, Mengfan Wang, Michael E. Reitman, Yizhi Wang, Kira E. Poskanzer, David A. Lyons, Axel Nimmerjahn, Misha B. Ahrens, Guoqiang Yu, *Fast, Accurate, and Versatile Data Analysis Platform for the Quantification of Molecular Spatiotemporal Signals*, BioRxiv 592259; doi: https://doi.org/10.1101/2024.05.02.592259. **[[Link to BioRxiv]](https://doi.org/10.1101/2024.05.02.592259)**
 
 # Updates
+
+**05/18/2026:**
+
+Fix CFU output compatibility issue caused by one-argument `rescale` calls in some MATLAB environments. Add `util.normalize01` for stable `[0, 1]` normalization and use it in CFU output, batch CFU output, and multi-session scripts. Also harden multi-session FOV registration when global event overlays are missing.
 
 **04/27/2026:**
 

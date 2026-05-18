@@ -22,7 +22,7 @@ AQuA2res = cell(numel(files), 1);
 for fileID = 1:numel(files)
     AQuA2res{fileID} = load([pFolder, files(fileID).name]).res;
 end
-ref = rescale(squeeze(mean(single(AQuA2res{1}.datOrg1),4)));
+ref = util.normalize01(squeeze(mean(single(AQuA2res{1}.datOrg1),4)));
 masks = false(size(ref, 1), size(ref, 2), numel(files));
 
 %% regiser
@@ -34,7 +34,7 @@ optimizer.MaximumIterations = 300;
 
 transforms = cell(numel(files), 1);
 for fileID = 1:numel(files)
-    datPro = rescale(squeeze(mean(single(AQuA2res{fileID}.datOrg1),4)));
+    datPro = util.normalize01(squeeze(mean(single(AQuA2res{fileID}.datOrg1),4)));
 
     tform = imregtform(datPro,ref,registrationType,optimizer,metric);
     movingRegistered = imwarp(datPro, tform, 'OutputView', imref2d(size(ref)));
@@ -165,9 +165,8 @@ for fileID = 1:numel(files)
     res.evt1 = res.evt1(remainedEvt);
     res.riseLst1 = res.riseLst1(remainedEvt);
     if ~isempty(res.gloEvt1)
-        remainedGloEvt = cellfun(@numel, res.gloEvt1) > 0;
-        res.gloEvt1 = res.gloEvt1(remainedEvt);
-        res.gloRiseLst1 = res.gloRiseLst1(remainedEvt);
+        res.gloEvt1 = res.gloEvt1(remainedGloEvt);
+        res.gloRiseLst1 = res.gloRiseLst1(remainedGloEvt);
     end
 
     mappingLabels = -ones(numel(remainedEvt), 1);
@@ -208,10 +207,15 @@ for fileID = 1:numel(files)
     ov([ovName,'_Green']) = ov2;
 
     if ~isempty(res.gloEvt1)
-        ov0 = ov('Global Events_Red');
+        if res.ov.isKey('Global Events_Red')
+            ov0 = res.ov('Global Events_Red');
+        else
+            ov0 = ui.over.getOv([],res.gloEvt1,orgSz,[],1);
+        end
         ovName = 'Global Events';
         datRGlo1 = fea.reconstructDatR(ov0,orgSz);
-        ov1 = ui.over.getOv([],res.gloEvt1,opts.sz,gloDatR1,1);
+        datRGlo1 = multiAlign.warp(datRGlo1,tform,ref,x0,x1,y0,y1);
+        ov1 = ui.over.getOv([],res.gloEvt1,res.opts.sz,datRGlo1,1);
         ov1.name = ovName;
         ov1.colorCodeType = {'Random'};
         ov([ovName,'_Red']) = ov1;
